@@ -34,4 +34,6 @@ def restaurant_edit(request, restaurant_id=None):
 
 def restaurant_del(request, restaurant_id):
     """飲食店の削除"""
-    return HttpResponse('飲食店の削除')
+    restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
+    restaurant.delete()
+    return redirect('cms:restaurant_list')
