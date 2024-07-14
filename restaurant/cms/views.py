@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from cms.models import Restaurant
 from cms.forms import RestaurantForm
+from django.views.generic.list import ListView
 
 
 def restaurant_list(request):
@@ -37,3 +38,17 @@ def restaurant_del(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     restaurant.delete()
     return redirect('cms:restaurant_list')
+
+class ReviewList(ListView):
+    """感想の一覧"""
+    context_object_name = 'reviews'
+    template_name = 'cms/review_list.html'
+    paginate_by = 2  # １ページは最大2件ずつでページングする
+
+    def get(self, request, *args, **kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=kwargs['restaurant_id'])  # 親の飲食店を読む
+        reviews = restaurant.reviews.all().order_by('id')  # 飲食店の子供の、感想を読む
+        self.object_list = reviews
+
+        context = self.get_context_data(object_list=self.object_list, restaurant=restaurant)
+        return self.render_to_response(context)
