@@ -39,6 +39,7 @@ def restaurant_del(request, restaurant_id):
     restaurant.delete()
     return redirect('cms:restaurant_list')
 
+
 class ReviewList(ListView):
     """感想の一覧"""
     context_object_name = 'reviews'
