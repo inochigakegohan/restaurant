@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from cms.models import Restaurant
-from cms.forms import RestaurantForm
+from cms.models import Restaurant, Review
+from cms.forms import RestaurantForm, ReviewForm
 from django.views.generic.list import ListView
 
 
@@ -53,3 +53,26 @@ class ReviewList(ListView):
 
         context = self.get_context_data(object_list=self.object_list, restaurant=restaurant)
         return self.render_to_response(context)
+
+
+def review_edit(request, restaurant_id, review_id=None):
+    """感想の編集"""
+    restaurant = get_object_or_404(Restaurant, pk=restaurant_id)  # 親の飲食店を読む
+    if review_id:  # review_id が指定されている (修正時)
+        review = get_object_or_404(Review, pk=review_id)
+    else:  # review_id が指定されていない (追加時)
+        review = Review()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)  # POST された request データからフォームを作成
+        if form.is_valid():  # フォームのバリデーション
+            review = form.save(commit=False)
+            review.restaurant = restaurant  # この感想の、親の飲食店をセット
+            review.save()
+            return redirect('cms:review_list', restaurant_id=restaurant_id)
+    else:  # GET の時
+        form = ReviewForm(instance=review)  # review インスタンスからフォームを作成
+
+    return render(request,
+                  'cms/review_edit.html',
+                  dict(form=form, restaurant_id=restaurant_id, review_id=review_id))
