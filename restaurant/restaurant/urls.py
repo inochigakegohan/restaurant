@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include   # ←, includeを追加
+from django.urls import path, include
 
 urlpatterns = [
-    path('cms/', include('cms.urls')),   # ←ここを追加
+    path('cms/', include('cms.urls')),
     path('admin/', admin.site.urls),
 ]
