@@ -41,14 +41,14 @@ def restaurant_del(request, restaurant_id):
 
 
 class ReviewList(ListView):
-    """感想の一覧"""
+    """レビューの一覧"""
     context_object_name = 'reviews'
     template_name = 'cms/review_list.html'
     paginate_by = 2  # １ページは最大2件ずつでページングする
 
     def get(self, request, *args, **kwargs):
         restaurant = get_object_or_404(Restaurant, pk=kwargs['restaurant_id'])  # 親の飲食店を読む
-        reviews = restaurant.reviews.all().order_by('id')  # 飲食店の子供の、感想を読む
+        reviews = restaurant.reviews.all().order_by('id')  # 飲食店の子供の、レビューを読む
         self.object_list = reviews
 
         context = self.get_context_data(object_list=self.object_list, restaurant=restaurant)
@@ -56,7 +56,7 @@ class ReviewList(ListView):
 
 
 def review_edit(request, restaurant_id, review_id=None):
-    """感想の編集"""
+    """レビューの編集"""
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)  # 親の飲食店を読む
     if review_id:  # review_id が指定されている (修正時)
         review = get_object_or_404(Review, pk=review_id)
@@ -67,7 +67,7 @@ def review_edit(request, restaurant_id, review_id=None):
         form = ReviewForm(request.POST, instance=review)  # POST された request データからフォームを作成
         if form.is_valid():  # フォームのバリデーション
             review = form.save(commit=False)
-            review.restaurant = restaurant  # この感想の、親の飲食店をセット
+            review.restaurant = restaurant  # このレビューの、親の飲食店をセット
             review.save()
             return redirect('cms:review_list', restaurant_id=restaurant_id)
     else:  # GET の時
