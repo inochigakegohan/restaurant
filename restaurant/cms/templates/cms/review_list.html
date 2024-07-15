@@ -21,10 +21,9 @@
                 <td>
                     <a href="{% url 'cms:review_mod' restaurant_id=restaurant.id review_id=review.id %}"
                        class="btn btn-outline-primary btn-sm">修正</a>
-                    <button class="btn btn-outline-danger btn-sm del_confirm" data-toggle="modal"
-                            data-target="#deleteModal" data-pk="{{ review.id }}"
-                            data-url="{% url 'cms:review_del' restaurant_id=restaurant.id review_id=review.id %}">削除
-                    </button>
+                    <a href="#" class="btn btn-outline-danger btn-sm del_confirm"
+                       data-pk="{{ review.id }}"
+                       data-url="{% url 'cms:review_del' restaurant_id=restaurant.id review_id=review.id %}">削除</a>
                 </td>
             </tr>
         {% endfor %}
@@ -77,8 +76,13 @@
                     <p>ID: <span id="del_pk"></span> を削除しますか？</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-primary" id="del_url">OK</a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form method="POST" id="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">OK</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="$('#deleteModal').modal('hide')">Cancel
+                    </button>
                 </div>
             </div>
         </div>
@@ -89,8 +93,11 @@
     <script>
         $(function () {
             $('.del_confirm').on('click', function () {
-                $("#del_pk").text($(this).data("pk"));
-                $('#del_url').attr('href', $(this).data("url"));
+                var pk = $(this).data("pk");
+                var url = $(this).data("url");
+                $("#del_pk").text(pk);
+                $('#delete-form').attr('action', url);
+                $('#deleteModal').modal('show');
             });
         });
     </script>
