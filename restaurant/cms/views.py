@@ -76,3 +76,10 @@ def review_edit(request, restaurant_id, review_id=None):
     return render(request,
                   'cms/review_edit.html',
                   dict(form=form, restaurant_id=restaurant_id, review_id=review_id))
+
+
+def review_del(request, restaurant_id, review_id):
+    """レビューの削除"""
+    review = get_object_or_404(Review, pk=review_id)
+    review.delete()
+    return redirect('cms:review_list', restaurant_id=restaurant_id)
