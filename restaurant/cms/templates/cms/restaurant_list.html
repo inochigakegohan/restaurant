@@ -27,6 +27,8 @@
                        class="btn btn-outline-primary btn-sm">修正</a>
                     <a href="{% url 'cms:restaurant_del' restaurant_id=restaurant.id %}"
                        class="btn btn-outline-danger btn-sm">削除</a>
+                    <a href="{% url 'cms:review_list' restaurant_id=restaurant.id %}"
+                       class="btn btn-outline-info btn-sm">レビューの一覧</a>
                 </td>
             </tr>
         {% endfor %}
