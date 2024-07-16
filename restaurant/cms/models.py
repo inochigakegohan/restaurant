@@ -15,7 +15,7 @@ class Review(models.Model):
     """レビュー"""
     restaurant = models.ForeignKey(Restaurant, verbose_name='店名', related_name='reviews', on_delete=models.CASCADE)
     comment = models.TextField('コメント', blank=True)
+    rating = models.IntegerField('評価', default=0)
 
     def __str__(self):
         return self.comment
-
