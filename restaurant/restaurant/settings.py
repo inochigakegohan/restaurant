@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cms.apps.CmsConfig',  # cms アプリケーション
+    'api.apps.ApiConfig',  # api アプリケーション
     'bootstrap5',  # django-bootstrap-v5
 ]
 
