@@ -6,7 +6,7 @@ class RestaurantForm(ModelForm):
     """飲食店のフォーム"""
     class Meta:
         model = Restaurant
-        fields = ('name', 'genre', 'seat_count', )
+        fields = ('name', 'prefecture','genre', 'seat_count', )
 
 
 class ReviewForm(ModelForm):
