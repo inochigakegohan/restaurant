@@ -9,6 +9,7 @@
         <thead>
         <tr>
             <th scope="col">ID</th>
+            <th scope="col">都道府県</th>
             <th scope="col">店名</th>
             <th scope="col">ジャンル</th>
             <th scope="col">席数</th>
@@ -19,6 +20,7 @@
         {% for restaurant in restaurants %}
             <tr>
                 <th scope="row">{{ restaurant.id }}</th>
+                <td>{{ restaurant.prefecture }}</td>
                 <td>{{ restaurant.name }}</td>
                 <td>{{ restaurant.genre }}</td>
                 <td>{{ restaurant.seat_count }}</td>
