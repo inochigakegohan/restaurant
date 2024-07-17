@@ -9,6 +9,7 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>評価</th>
             <th>コメント</th>
             <th>操作</th>
         </tr>
@@ -17,6 +18,7 @@
         {% for review in reviews %}
             <tr>
                 <td>{{ review.id }}</td>
+                <td>{{ review.rating }}</td>
                 <td>{{ review.comment|linebreaksbr }}</td>
                 <td>
                     <a href="{% url 'cms:review_mod' restaurant_id=restaurant.id review_id=review.id %}"
