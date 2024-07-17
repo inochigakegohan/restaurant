@@ -6,6 +6,7 @@ class Restaurant(models.Model):
     name = models.CharField('店名', max_length=255)
     genre = models.CharField('ジャンル', max_length=255, blank=True)
     seat_count = models.IntegerField('席数', blank=True, default=0)
+    prefecture = models.CharField('都道府県', max_length=5, blank=True)
 
     def __str__(self):
         return self.name
